@@ -31,7 +31,7 @@ let workoutData = [
       "workouts": "sit-ups",
       "likes": 4
     }
-  ]
+]
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -40,7 +40,7 @@ app.get('/', (request, response) => {
 app.get('/api/workout', (request, response) => {
   response.json(workoutData)
 })
-  
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
