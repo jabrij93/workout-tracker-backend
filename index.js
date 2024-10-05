@@ -44,11 +44,11 @@ app.get('/api/workout', (request, response) => {
 app.get('/api/workout/:id', (request, response) => {
   const id = request.params.id;
   const workout = workoutData.find(workout => workout.id === id)
-  
+
   if (workout) {
     response.json(workout)
   } else {
-    response.status(404).end
+    response.status(404).end();
   }
 })
 
