@@ -1,4 +1,5 @@
-const http = require('http')
+const express = require('express')
+const app = express()
 
 let workoutData = [
     {
@@ -32,11 +33,15 @@ let workoutData = [
     }
   ]
 
-  const app = http.createServer((request, response) => {
-    response.writeHead(200, { 'Content-Type': 'application/json' })
-    response.end(JSON.stringify(workoutData))
-  })
-
+app.get('/', (request, response) => {
+  response.send('<h1>Hello World!</h1>')
+})
+  
+app.get('/api/workout', (request, response) => {
+  response.json(workoutData)
+})
+  
 const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
