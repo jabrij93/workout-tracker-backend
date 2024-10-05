@@ -41,6 +41,12 @@ app.get('/api/workout', (request, response) => {
   response.json(workoutData)
 })
 
+app.get('/api/workout/:id', (request, response) => {
+  const id = request.params.id;
+  const workout = workoutData.find(workout => workout.id === id)
+  response.json(workout)
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
