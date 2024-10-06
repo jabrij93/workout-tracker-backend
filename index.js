@@ -35,6 +35,24 @@ let workoutData = [
     }
 ]
 
+const generateId = () => {
+  // Generate two random lowercase letters (a-z)
+  const letter1 = String.fromCharCode(
+    Math.floor(Math.random() * 26) + 97 // First random letter
+  );
+
+  const letter2 = String.fromCharCode(
+    Math.floor(Math.random() * 26) + 97 // First random letter
+  );
+
+  // Generate two random digits (0-9)
+  const number1 = Math.floor(Math.random() * 9).toString()
+  const number2 = Math.floor(Math.random() * 9).toString()
+
+  // Combine the two letters and two digits
+  return letter1 + number1 + letter2 + number2
+};
+
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
@@ -55,9 +73,22 @@ app.get('/api/workout/:id', (request, response) => {
 })
 
 app.post('/api/workout', (request, response) => {
-  const workout = request.body;
-  console.log(workout)
-  response.json(workout)
+  const body = request.body;
+
+  if (!body.workouts) {
+    return response.status(400).json({
+      error: 'workout missing'
+    })
+  }
+
+  const workoutData = {
+    id: generateId(),
+    workouts: body.workouts,
+    likes: Number(body.likes) || 0, 
+  }
+
+  console.log(workoutData)
+  response.json(workoutData)
 })
 
 app.delete('/api/workout/:id', (request, response) => {
