@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let workoutData = [
     {
       "workouts": "pull-ups",
@@ -50,6 +52,12 @@ app.get('/api/workout/:id', (request, response) => {
   } else {
     response.status(404).end();
   }
+})
+
+app.post('/api/workout', (request, response) => {
+  const workout = request.body;
+  console.log(workout)
+  response.json(workout)
 })
 
 app.delete('/api/workout/:id', (request, response) => {
