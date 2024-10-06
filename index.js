@@ -52,6 +52,13 @@ app.get('/api/workout/:id', (request, response) => {
   }
 })
 
+app.delete('/api/workout/:id', (request, response) => {
+  const id = request.params.id
+  workout = workoutData.filter(workout => workout.id !== id)
+
+  response.status(204).end()
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
