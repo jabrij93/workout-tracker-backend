@@ -3,6 +3,14 @@ const app = express()
 
 app.use(express.json())
 
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
 let workoutData = [
     {
       "workouts": "pull-ups",
@@ -81,14 +89,16 @@ app.post('/api/workout', (request, response) => {
     })
   }
 
-  const workoutData = {
+  const workout2 = {
     id: generateId(),
     workouts: body.workouts,
-    likes: Number(body.likes) || 0, 
+    likes: Number(body.likes), 
   }
 
+  workoutData = workoutData.concat(workout2)
+
   console.log(workoutData)
-  response.json(workoutData)
+  response.json(workout2)
 })
 
 app.delete('/api/workout/:id', (request, response) => {
@@ -97,6 +107,14 @@ app.delete('/api/workout/:id', (request, response) => {
 
   response.status(204).end()
 })
+
+app.use(requestLogger)
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT, () => {

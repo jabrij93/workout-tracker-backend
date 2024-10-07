@@ -2,7 +2,6 @@ POST http://localhost:3001/api/workout
 Content-Type: application/json
 
 {
-    "id": "1ed2",
-    "likes": 20,
-    "workouts": "bench press"
+    "likes": 99,
+    "workouts": "incline db row"
 }
