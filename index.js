@@ -19,7 +19,7 @@ let workoutData = [
       "workouts": "pull-ups",
       "likes": 5,
       "id": "e05b",
-      "date": "2024-02-22"
+      "date": "2024-09-08"
     },
     {
       "workouts": "dips",
@@ -42,7 +42,8 @@ let workoutData = [
     {
       "id": "4e15",
       "workouts": "sit-ups",
-      "likes": 4
+      "likes": 4,
+      "date": "2024-07-24"
     }
 ]
 
