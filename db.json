@@ -19,26 +19,24 @@
       "date": "2024-01-24"
     },
     {
-      "id": "3130",
-      "workouts": "test add workout",
-      "likes": 8,
-      "date": "2024-03-25"
-    },
-    {
       "id": "4e15",
       "workouts": "sit-ups",
       "likes": 4,
       "date": "2024-07-24"
     },
     {
-      "workouts": "test add workouttt",
-      "likes": 0,
-      "id": "z0ED-BR"
+      "likes": 10,
+      "workouts": "muscle up",
+      "date": "02-05-2024",
+      "detail": "less rest time",
+      "id": "WjvZ3DO"
     },
     {
-      "workouts": "again testt",
-      "likes": 0,
-      "id": "Pomn_UA"
+      "likes": 10,
+      "workouts": "HS push-up",
+      "date": "01-05-2024",
+      "detail": "practice",
+      "id": "Rev7qJj"
     }
   ]
 }

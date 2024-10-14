@@ -3,7 +3,7 @@ const app = express()
 
 app.use(express.json())
 const cors = require('cors')
-
+  
 app.use(cors())
 
 const requestLogger = (request, response, next) => {
@@ -64,6 +64,8 @@ app.post('/api/workout', (request, response) => {
     id: generateId(),
     workouts: body.workouts,
     likes: Number(body.likes), 
+    date: body.date,
+    detail: body.detail
   }
 
   workoutData = workoutData.concat(workout2)
