@@ -14,6 +14,8 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
+app.use(express.static('dist'))
+
 const generateId = () => {
   // Generate two random lowercase letters (a-z)
   const letter1 = String.fromCharCode(
