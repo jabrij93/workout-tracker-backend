@@ -25,18 +25,18 @@
       "date": "2024-07-24"
     },
     {
-      "likes": 10,
-      "workouts": "muscle up",
-      "date": "02-05-2024",
-      "detail": "less rest time",
-      "id": "WjvZ3DO"
+      "workouts": "bench press",
+      "date": "2024-06-03",
+      "detail": "10kg, 3 sets x 8 reps",
+      "likes": 0,
+      "id": "KvbmWhU"
     },
     {
-      "likes": 10,
-      "workouts": "HS push-up",
-      "date": "01-05-2024",
-      "detail": "practice",
-      "id": "Rev7qJj"
+      "id": "r6q5",
+      "workouts": "incline db row",
+      "date": "2024-05-15",
+      "detail": "3 sets x 12 reps",
+      "likes": 0
     }
   ]
 }

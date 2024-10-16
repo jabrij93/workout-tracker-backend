@@ -3,5 +3,6 @@ Content-Type: application/json
 
 {
     "likes": 99,
-    "workouts": "incline db row"
+    "workouts": "incline db row",
+    
 }
