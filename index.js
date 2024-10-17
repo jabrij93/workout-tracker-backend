@@ -14,6 +14,8 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
+let workoutData = [];
+
 const generateId = () => {
   // Generate two random lowercase letters (a-z)
   const letter1 = String.fromCharCode(
