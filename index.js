@@ -94,6 +94,7 @@ app.delete('/api/workout/:id', (request, response) => {
 app.use(requestLogger)
 
 app.use(express.static('dist'))
+
 // Catch-all route to serve the frontend for non-API routes
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
@@ -104,7 +105,6 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(unknownEndpoint)
-
 
 app.use((req, res, next) => {
   console.log(`Request received: ${req.method} ${req.path}`);
