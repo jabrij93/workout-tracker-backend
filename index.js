@@ -1,12 +1,9 @@
 const express = require('express')
 const app = express()
 
-app.use(express.json())
-const cors = require('cors')
+
 const path = require('path'); 
 const axios = require('axios');
-  
-app.use(cors())
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -16,7 +13,54 @@ const requestLogger = (request, response, next) => {
   next()
 }
 
-let workoutData = [];
+const cors = require('cors')
+  
+app.use(cors())
+app.use(express.json())
+app.use(requestLogger)
+
+let workoutData = [
+  {
+    "workouts": "pull-ups",
+    "likes": 5,
+    "id": "e05b",
+    "date": "2024-09-08"
+  },
+  {
+    "workouts": "dips",
+    "likes": 3,
+    "id": "dfb1",
+    "date": "2024-02-23"
+  },
+  {
+    "workouts": "push-up",
+    "likes": 2,
+    "id": "f11b",
+    "date": "2024-01-24"
+  },
+  {
+    "id": "4e15",
+    "workouts": "sit-ups",
+    "likes": 4,
+    "date": "2024-07-24"
+  },
+  {
+    "workouts": "bench press",
+    "date": "2024-06-03",
+    "detail": "10kg, 3 sets x 8 reps",
+    "likes": 0,
+    "id": "KvbmWhU"
+  },
+  {
+    "id": "r6q5",
+    "workouts": "incline db row",
+    "date": "2024-05-15",
+    "detail": "3 sets x 12 reps",
+    "likes": 0
+  }
+]
+
+app.use(express.static('dist'))
 
 const generateId = () => {
   // Generate two random lowercase letters (a-z)
@@ -36,8 +80,16 @@ const generateId = () => {
   return letter1 + number1 + letter2 + number2
 };
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
+})
+
+app.get('/api/workout', (request, response) => {
+  response.json(workoutData)
 })
 
 app.get('/api/workout/:id', (request, response) => {
@@ -80,14 +132,6 @@ app.delete('/api/workout/:id', (request, response) => {
 
   response.status(204).end()
 })
-
-app.use(requestLogger)
-
-app.use(express.static('dist'))
-
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
 
 app.use(unknownEndpoint)
 
