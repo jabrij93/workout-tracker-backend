@@ -5,7 +5,6 @@ app.use(express.json())
 const cors = require('cors')
 const path = require('path'); 
 const axios = require('axios');
-
   
 app.use(cors())
 
@@ -18,7 +17,6 @@ const requestLogger = (request, response, next) => {
 }
 
 let workoutData = [];
-
 
 const generateId = () => {
   // Generate two random lowercase letters (a-z)
@@ -41,23 +39,6 @@ const generateId = () => {
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
-
-// axios.get('http://localhost:3003/workoutData')
-//   .then(response => {
-//     console.log(response.data);
-//   })
-//   .catch(error => {
-//     console.error('Error fetching workouts:', error.message);
-// });
-  
-// app.get('/api/workout', async (request, response) => {
-//   try {
-//     const response = await axios.get('http://localhost:3003/workoutData');
-//     response.json(response.data);
-//   } catch (error) {
-//     response.status(500).json({ error: 'Failed to fetch workouts' });
-//   }
-// })
 
 app.get('/api/workout/:id', (request, response) => {
   const id = request.params.id;
@@ -104,21 +85,11 @@ app.use(requestLogger)
 
 app.use(express.static('dist'))
 
-// Catch-all route to serve the frontend for non-API routes
-// app.get('*', (req, res) => {
-//   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-// });
-
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
-
-// app.use((req, res, next) => {
-//   console.log(`Request received: ${req.method} ${req.path}`);
-//   next();
-// });
 
 const PORT = process.env.PORT || 3002
 app.listen(PORT, () => {
