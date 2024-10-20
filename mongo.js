@@ -15,8 +15,10 @@ mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const workoutSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
+  workouts: String,
+  date: String,
+  detail: String,
+  likes: Number
 })
 
 const Workout = mongoose.model('Workout', workoutSchema)
@@ -25,7 +27,7 @@ const workout = new Workout({
   workouts: 'Pull-ups',
   date: '2024-05-05',
   detail: "3 sets x 9 reps",
-  likes: "0"
+  likes: 0
 })
 
 workout.save().then(result => {
