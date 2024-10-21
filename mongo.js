@@ -30,7 +30,14 @@ const workout = new Workout({
   likes: 0
 })
 
-workout.save().then(result => {
-  console.log('workout saved!')
+// workout.save().then(result => {
+//   console.log('workout saved!')
+//   mongoose.connection.close()
+// })
+
+Workout.find({}).then(result => {
+  result.forEach(workout => {
+    console.log(workout)
+  })
   mongoose.connection.close()
 })
