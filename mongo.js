@@ -1,12 +1,16 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-if (process.argv.length<3) {
-  console.log('give password as argument')
-  process.exit(1)
+if (process.argv.length < 5) {
+  console.log('Usage: node mongo.js <password> <workout> <detail> <likes> [date]');
+  process.exit(1);
 }
 
-const password = process.argv[2]
+const password = process.argv[2];
+const workoutName = process.argv[3];
+const workoutDetail = process.argv[4];
+const workoutLikes = Number(process.argv[5]) ? Number(process.argv[5]) : 0  // Convert likes to a number
+const workoutDate = process.argv[6] ? process.argv[6] : new Date().toISOString().split('T')[0];  // If date is provided, use it, otherwise use today's date
 
 const url = process.env.MONGODB_URI
 
