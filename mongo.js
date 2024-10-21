@@ -27,8 +27,9 @@ const Workout = mongoose.model('Workout', workoutSchema)
 if (process.argv.length === 3) {
   Workout.find({})
     .then((result) => {
+      console.log("Workout:")
       result.forEach((workout) => {
-        console.log(workout);
+        console.log(`${workout.workouts} ${workout.detail} ${workout.date} ${workout.likes}`);
       });
       mongoose.connection.close();
     })
