@@ -1,5 +1,27 @@
 const express = require('express')
 const app = express()
+const mongoose = require('mongoose')
+const cors = require('cors')
+require('dotenv').config()
+
+const password = process.argv[2];
+const workoutName = process.argv[3];
+const workoutDetail = process.argv[4];
+// Check if the 5th argument is a number (likes), otherwise treat it as a date or skip
+let workoutLikes;
+let workoutDate;
+
+const url = process.env.MONGODB_URI
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const workoutSchema = new mongoose.Schema({
+  workouts: String,
+  date: String,
+  detail: String,
+  likes: Number
+})
+
+const Workout = mongoose.model('Workout', workoutSchema)
 
 const path = require('path'); 
 const axios = require('axios');
@@ -11,8 +33,6 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 }
-
-const cors = require('cors')
   
 app.use(cors())
 app.use(express.json())
@@ -59,7 +79,7 @@ let workoutData = [
   }
 ]
 
-app.use(express.static('dist'))
+// app.use(express.static('dist'))
 
 const generateId = () => {
   // Generate two random lowercase letters (a-z)
@@ -88,7 +108,9 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/workout', (request, response) => {
-  response.json(workoutData)
+  Workout.find({}).then(workouts => {
+    response.json(workouts);
+  });
 })
 
 app.get('/api/workout/:id', (request, response) => {
