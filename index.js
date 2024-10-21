@@ -3,25 +3,7 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv').config()
-
-const password = process.argv[2];
-const workoutName = process.argv[3];
-const workoutDetail = process.argv[4];
-// Check if the 5th argument is a number (likes), otherwise treat it as a date or skip
-let workoutLikes;
-let workoutDate;
-
-const url = process.env.MONGODB_URI
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
-const workoutSchema = new mongoose.Schema({
-  workouts: String,
-  date: String,
-  detail: String,
-  likes: Number
-})
-
-const Workout = mongoose.model('Workout', workoutSchema)
+const Workout = require('./models/workout')
 
 const path = require('path'); 
 const axios = require('axios');
@@ -37,47 +19,6 @@ const requestLogger = (request, response, next) => {
 app.use(cors())
 app.use(express.json())
 app.use(requestLogger)
-
-let workoutData = [
-  {
-    "workouts": "pull-ups",
-    "likes": 5,
-    "id": "e05b",
-    "date": "2024-09-08"
-  },
-  {
-    "workouts": "dips",
-    "likes": 3,
-    "id": "dfb1",
-    "date": "2024-02-23"
-  },
-  {
-    "workouts": "push-up",
-    "likes": 2,
-    "id": "f11b",
-    "date": "2024-01-24"
-  },
-  {
-    "id": "4e15",
-    "workouts": "sit-ups",
-    "likes": 4,
-    "date": "2024-07-24"
-  },
-  {
-    "workouts": "bench press",
-    "date": "2024-06-03",
-    "detail": "10kg, 3 sets x 8 reps",
-    "likes": 0,
-    "id": "KvbmWhU"
-  },
-  {
-    "id": "r6q5",
-    "workouts": "incline db row",
-    "date": "2024-05-15",
-    "detail": "3 sets x 12 reps",
-    "likes": 0
-  }
-]
 
 app.use(express.static('dist'))
 
