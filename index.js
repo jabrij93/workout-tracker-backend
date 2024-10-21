@@ -79,7 +79,7 @@ let workoutData = [
   }
 ]
 
-// app.use(express.static('dist'))
+app.use(express.static('dist'))
 
 const generateId = () => {
   // Generate two random lowercase letters (a-z)
