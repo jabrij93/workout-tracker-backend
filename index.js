@@ -74,18 +74,17 @@ app.post('/api/workout', (request, response) => {
     })
   }
 
-  const workout2 = {
+  const workout = new Workout({
     id: generateId(),
     workouts: body.workouts,
     likes: Number(body.likes), 
     date: body.date,
     detail: body.detail
-  }
+  })
 
-  workoutData = workoutData.concat(workout2)
-
-  console.log(workoutData)
-  response.json(workout2)
+  workout.save().then(savedWorkout => {
+    response.json(savedWorkout)
+  })
 })
 
 app.delete('/api/workout/:id', (request, response) => {
