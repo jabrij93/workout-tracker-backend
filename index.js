@@ -56,13 +56,9 @@ app.get('/api/workout', (request, response) => {
 
 app.get('/api/workout/:id', (request, response) => {
   const id = request.params.id;
-  const workout = workoutData.find(workout => workout.id === id)
-
-  if (workout) {
+  Workout.findById(id).then(workout=> {
     response.json(workout)
-  } else {
-    response.status(404).end();
-  }
+  })
 })
 
 app.post('/api/workout', (request, response) => {
