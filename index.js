@@ -57,7 +57,15 @@ app.get('/api/workout', (request, response) => {
 app.get('/api/workout/:id', (request, response) => {
   const id = request.params.id;
   Workout.findById(id).then(workout=> {
-    response.json(workout)
+    if (workout) {
+      response.json(workout)
+    } else {
+      response.status(404).end()
+    }
+  })
+  .catch(error => {
+    console.log(error)
+    response.status(500).end()
   })
 })
 
