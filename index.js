@@ -49,8 +49,8 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/workout', (request, response) => {
-  Workout.find({}).then(workouts => {
-    response.json(workouts);
+  Workout.find({}).then(workout=> {
+    response.json(workout);
   });
 })
 
@@ -65,7 +65,7 @@ app.get('/api/workout/:id', (request, response) => {
   })
   .catch(error => {
     console.log(error)
-    response.status(500).end()
+    response.status(400).send({ error: 'malformatted id'})
   })
 })
 
