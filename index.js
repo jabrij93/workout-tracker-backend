@@ -54,7 +54,7 @@ app.get('/api/workout', (request, response) => {
   });
 })
 
-app.get('/api/workout/:id', (request, response) => {
+app.get('/api/workout/:id', (request, response, next) => {
   const id = request.params.id;
   Workout.findById(id).then(workout=> {
     if (workout) {
@@ -63,13 +63,10 @@ app.get('/api/workout/:id', (request, response) => {
       response.status(404).end()
     }
   })
-  .catch(error => {
-    console.log(error)
-    response.status(400).send({ error: 'malformatted id'})
-  })
+  .catch(error => next(error))
 })
 
-app.post('/api/workout', (request, response) => {
+app.post('/api/workout', (request, response) => { 
   const body = request.body;
 
   if (!body.workouts) {
@@ -98,7 +95,20 @@ app.delete('/api/workout/:id', (request, response) => {
   response.status(204).end()
 })
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
 app.use(unknownEndpoint)
+
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3002
 app.listen(PORT, () => {
