@@ -40,9 +40,7 @@ const generateId = () => {
   return letter1 + number1 + letter2 + number2
 };
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
+
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -95,6 +93,13 @@ app.delete('/api/workout/:id', (request, response) => {
   response.status(204).end()
 })
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint)
+
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
@@ -104,8 +109,6 @@ const errorHandler = (error, request, response, next) => {
 
   next(error)
 }
-
-app.use(unknownEndpoint)
 
 // this has to be the last loaded middleware, also all the routes should be registered before this!
 app.use(errorHandler)
