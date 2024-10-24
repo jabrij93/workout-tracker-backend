@@ -49,7 +49,11 @@ app.get('/', (request, response) => {
 app.get('/api/workout', (request, response) => {
   Workout.find({}).then(workout=> {
     response.json(workout);
-  });
+  })
+  .catch(error => {
+    console.log(error)
+    response.status(500).end()
+  })
 })
 
 app.get('/api/workout/:id', (request, response, next) => {
