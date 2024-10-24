@@ -40,8 +40,6 @@ const generateId = () => {
   return letter1 + number1 + letter2 + number2
 };
 
-
-
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
@@ -92,9 +90,10 @@ app.post('/api/workout', (request, response) => {
 
 app.delete('/api/workout/:id', (request, response) => {
   const id = request.params.id
-  workout = workoutData.filter(workout => workout.id !== id)
-
-  response.status(204).end()
+  Workout.findByIdAndDelete(id).then(result => {
+    response.status(204).end()
+  })
+  .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
