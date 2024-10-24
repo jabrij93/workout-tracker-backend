@@ -88,23 +88,21 @@ app.post('/api/workout', (request, response) => {
   })
 })
 
-app.put('/api/workout/:id', (request, response) => {
-  const id = request.params.id 
+app.put('/api/workout/:id', async (request, response) => {
+  const id = request.params.id;
   const body = request.body;
 
-  const workout = new Workout({
-    id: generateId(),
+  const workout = {
     workouts: body.workouts,
-    likes: Number(body.likes), 
+    likes: body.likes ? Number(body.likes) : 0, 
     date: body.date,
     detail: body.detail
-  })
+  }
 
-  Workout.findByIdAndUpdate(id, workout)
+  Workout.findByIdAndUpdate(id, workout, {new : true})
     .then(updatedWorkout => {
       response.json(updatedWorkout)
     })
-    .catch(error => next(error))
 })
 
 app.delete('/api/workout/:id', (request, response) => {
