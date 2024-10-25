@@ -14,7 +14,11 @@ mongoose.connect(url)
   })
 
 const workoutSchema = new mongoose.Schema({
-    workouts: String,
+    workouts: {
+      type: String,
+      minLength: 2,
+      required: true,
+    },
     date: String,
     detail: String,
     likes: Number
