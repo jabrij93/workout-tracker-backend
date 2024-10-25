@@ -86,6 +86,7 @@ app.post('/api/workout', (request, response) => {
   workout.save().then(savedWorkout => {
     response.json(savedWorkout)
   })
+  .catch(error=>next(error))
 })
 
 app.put('/api/workout/:id', async (request, response) => {
