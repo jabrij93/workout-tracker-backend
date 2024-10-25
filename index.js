@@ -105,7 +105,7 @@ app.put('/api/workout/:id', async (request, response) => {
     })
 })
 
-app.delete('/api/workout/:id', (request, response) => {
+app.delete('/api/workout/:id', (request, response, next) => {
   const id = request.params.id
   Workout.findByIdAndDelete(id).then(result => {
     response.status(204).end()
