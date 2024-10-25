@@ -66,7 +66,7 @@ app.get('/api/workout/:id', (request, response, next) => {
   .catch(error => next(error))
 })
 
-app.post('/api/workout', (request, response) => { 
+app.post('/api/workout', (request, response, next) => { 
   const body = request.body;
 
   if (!body.workouts) {
