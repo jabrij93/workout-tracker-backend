@@ -78,8 +78,8 @@ app.post('/api/workout', (request, response, next) => {
   const workout = new Workout({
     id: generateId(),
     workouts: body.workouts,
-    likes: Number(body.likes), 
-    date: body.date,
+    likes: body.likes ? Number(body.likes) : 0, 
+    date: body.date ? body.date : new Date().toISOString().split('T')[0],
     detail: body.detail
   })
 
