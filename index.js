@@ -89,21 +89,15 @@ app.post('/api/workout', (request, response, next) => {
   .catch(error=>next(error))
 })
 
-app.put('/api/workout/:id', async (request, response) => {
+app.put('/api/workout/:id', async (request, response, next) => {
   const id = request.params.id;
-  const body = request.body;
+  const {workouts, date, detail } = request.body;
 
-  const workout = {
-    workouts: body.workouts,
-    likes: body.likes ? Number(body.likes) : 0, 
-    date: body.date,
-    detail: body.detail
-  }
-
-  Workout.findByIdAndUpdate(id, workout, {new : true})
+  Workout.findByIdAndUpdate(id, { workouts, date, detail }, {new : true, runValidators: true, context: 'query' })
     .then(updatedWorkout => {
       response.json(updatedWorkout)
     })
+    .catch(error=> next(error))
 })
 
 app.delete('/api/workout/:id', (request, response, next) => {
