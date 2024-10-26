@@ -79,7 +79,7 @@ app.post('/api/workout', (request, response, next) => {
     id: generateId(),
     workouts: body.workouts,
     likes: body.likes ? Number(body.likes) : 0, 
-    date: body.date ? body.date : new Date().toISOString().split('T')[0],
+    date: body.date ? body.date : new Intl.DateTimeFormat('en-GB').format(new Date()),
     detail: body.detail
   })
 
