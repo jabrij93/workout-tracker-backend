@@ -5,7 +5,6 @@ import js from "@eslint/js";
 export default [
   js.configs.recommended,
   {
-    ignores: ["dist/**"],
     files: ["**/*.js"],
     languageOptions: {
       sourceType: "commonjs",
@@ -42,6 +41,10 @@ export default [
       'arrow-spacing': [
         'error', { 'before': true, 'after': true },
       ],
+      'no-console': 'off',
     },
+  },
+  { 
+    ignores: ["dist/**", "build/**"],
   },
 ]
