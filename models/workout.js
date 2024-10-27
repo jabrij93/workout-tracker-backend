@@ -33,6 +33,22 @@ const workoutSchema = new mongoose.Schema({
     likes: Number
 })
 
+// Pre-save hook to reformat date to "dd-mm-yyyy"
+workoutSchema.pre('save', function (next) {
+  if (this.date) {
+      // Extract day, month, and year from the date
+      const [day, month, year] = this.date.split('-');
+      
+      // Pad day and month with leading zeroes if necessary
+      const formattedDay = day.padStart(2, '0');
+      const formattedMonth = month.padStart(2, '0');
+
+      // Update the date to "dd-mm-yyyy" format
+      this.date = `${formattedDay}-${formattedMonth}-${year}`;
+  }
+  next();
+});
+
 workoutSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
