@@ -21,7 +21,6 @@ const workoutSchema = new mongoose.Schema({
     },
     date: {
       type: String,
-      required: true,
       validate: {
           validator: function (value) {
               // Regular expression for matching "dd-mm-yyyy" or "d-m-yyyy"
