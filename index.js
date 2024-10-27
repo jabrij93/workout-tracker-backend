@@ -91,7 +91,7 @@ app.post('/api/workout', (request, response, next) => {
 
 app.put('/api/workout/:id', async (request, response, next) => {
   const id = request.params.id;
-  const {workouts, date, detail } = request.body;
+  const { workouts, date, detail } = request.body;
 
   Workout.findByIdAndUpdate(id, { workouts, date, detail }, {new : true, runValidators: true, context: 'query' })
     .then(updatedWorkout => {
