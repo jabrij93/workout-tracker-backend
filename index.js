@@ -2,8 +2,9 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
-require('dotenv').config()
+const config = require('./utils/config')
 const Workout = require('./models/workout')
+const logger = require('./utils/logger')
 
 const path = require('path')
 const axios = require('axios')
@@ -130,7 +131,6 @@ const errorHandler = (error, request, response, next) => {
 // this has to be the last loaded middleware, also all the routes should be registered before this!
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 3002
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
 })
