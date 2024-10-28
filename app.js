@@ -24,7 +24,7 @@ app.use(express.static('dist'))
 app.use(express.json())
 app.use(middleware.requestLogger)
 
-app.use('/api/notes', workoutsRouter)
+app.use('/api/workouts', workoutsRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
