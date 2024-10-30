@@ -10,7 +10,8 @@
     "server": "json-server --watch db.json --routes routes.json --port 3003",
     "build:ui": "rm -rf dist && cd ../workout-tracker && npm run build && cp -r dist ../workout-tracker-backend",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "test": "node --test"
   },
   "author": "",
   "license": "ISC",
