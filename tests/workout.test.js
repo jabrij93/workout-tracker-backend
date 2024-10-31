@@ -35,4 +35,20 @@ describe('total likes', () => {
     const result = listHelper.totalLikes(workouts)
     assert.strictEqual(result, 0)
   })
+
+  test('when list has only one workout equals the likes of that', () => {
+
+    const workouts = []
+
+    const newWorkout = {
+      workouts: 'pull-ups',
+      likes: 10,
+      date: '5/7/2024',
+    }
+
+    workouts.push(newWorkout)
+
+    const result = listHelper.totalLikes(workouts)
+    assert.strictEqual(result, 10)
+  })
 })
