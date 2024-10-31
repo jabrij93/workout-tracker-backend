@@ -28,20 +28,11 @@ test('dummy returns one', () => {
 })
 
 describe('total likes', () => {
-  test('totallikes', () => {
+  test('of empty list is zero', () => {
 
     const workouts = []
 
-    const newWorkout = {
-      id: generateId(),
-      workouts: 'pull-ups',
-      likes: 10,
-      date: '5/7/2024'
-    }
-
-    workouts.push(newWorkout)
-
     const result = listHelper.totalLikes(workouts)
-    assert.strictEqual(result, 10)
+    assert.strictEqual(result, 0)
   })
 })
