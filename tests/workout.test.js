@@ -51,4 +51,27 @@ describe('total likes', () => {
     const result = listHelper.totalLikes(workouts)
     assert.strictEqual(result, 10)
   })
+
+  test('of a bigger list is calculated right', () => {
+
+    const workouts = [
+      {
+        workouts: 'pull-ups',
+        likes: 10,
+        date: '5/7/2024',
+      },
+      {
+        workouts: 'bench press',
+        likes: 10,
+        date: '5/7/2024',
+      },
+      { workouts: 'dumbbell press',
+        likes: 10,
+        date: '5/7/2024'
+      }
+    ]
+
+    const result = listHelper.totalLikes(workouts)
+    assert.strictEqual(result, 30)
+  })
 })
