@@ -96,7 +96,6 @@ describe('favourite workout', () => {
       }
     ]
 
-    const result = listHelper.totalLikes(workouts)
     const mostLiked = listHelper.mostLikedWorkout(workouts)
     const secondWorkout = workouts[2]
     assert.strictEqual(mostLiked.likes, 20)
