@@ -101,7 +101,7 @@ describe('favourite workout', () => {
     assert.strictEqual(mostLiked.likes, 20)
     assert.deepStrictEqual(secondWorkout, mostLiked)
 
-    // Print the most liked workout in the desired format
+    // Print the most liked workout with the following format :
     console.log({
       title: mostLiked.workouts,
       likes: mostLiked.likes,
