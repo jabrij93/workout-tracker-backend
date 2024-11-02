@@ -100,5 +100,12 @@ describe('favourite workout', () => {
     const secondWorkout = workouts[2]
     assert.strictEqual(mostLiked.likes, 20)
     assert.deepStrictEqual(secondWorkout, mostLiked)
+
+    // Print the most liked workout in the desired format
+    console.log({
+      title: mostLiked.workouts,
+      likes: mostLiked.likes,
+      date: mostLiked.date,
+    })
   })
 })
