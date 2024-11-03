@@ -109,3 +109,35 @@ describe('favourite workout', () => {
     })
   })
 })
+
+describe('individue account', () => {
+  test('with respect to their workout', () => {
+
+    const accountsWithWorkouts = [
+      {
+        name: 'alex',
+        workouts: 5,
+      },
+      {
+        name: 'felix',
+        workouts: 10,
+      },
+      {
+        name: 'jabs',
+        workouts: 20
+      }
+    ]
+
+    const mostWorkouts = listHelper.accountWithMostWorkout(accountsWithWorkouts)
+    const thirdPerson = accountsWithWorkouts[2]
+    assert.strictEqual(mostWorkouts.workouts, 20)
+    assert.deepStrictEqual(mostWorkouts, thirdPerson)
+
+    // Print the most liked workout with the following format :
+    // console.log({
+    //   title: mostLiked.workouts,
+    //   likes: mostLiked.likes,
+    //   date: mostLiked.date,
+    // })
+  })
+})
