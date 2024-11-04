@@ -19,12 +19,13 @@ test('there are one workout', async () => {
   assert.strictEqual(response.body.length, 1)
 })
 
-// test('the first workout is about pull-ups', async () => {
-//   const response = await api.get('/api/workouts')
+test('the first workout is about pull-ups', async () => {
+  const response = await api.get('/api/workouts')
 
-//   const contents = response.body.map(e => e.content)
-//   assert.strictEqual(contents.includes('pull-ups'), true)
-// })
+  const workouts = response.body.map(e => e.workouts)
+  console.log('workouts', workouts)
+  assert.strictEqual(workouts.includes('pull-ups'), true)
+})
 
 after(async () => {
   await mongoose.connection.close()
