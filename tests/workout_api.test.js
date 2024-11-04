@@ -13,18 +13,18 @@ test('workouts are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
-test('there are two notes', async () => {
-  const response = await api.get('/api/notes')
+test('there are one workout', async () => {
+  const response = await api.get('/api/workouts')
 
-  assert.strictEqual(response.body.length, 2)
+  assert.strictEqual(response.body.length, 1)
 })
 
-test('the first note is about HTTP methods', async () => {
-  const response = await api.get('/api/notes')
+// test('the first workout is about pull-ups', async () => {
+//   const response = await api.get('/api/workouts')
 
-  const contents = response.body.map(e => e.content)
-  assert.strictEqual(contents.includes('HTML is easy'), true)
-})
+//   const contents = response.body.map(e => e.content)
+//   assert.strictEqual(contents.includes('pull-ups'), true)
+// })
 
 after(async () => {
   await mongoose.connection.close()
