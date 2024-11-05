@@ -19,10 +19,9 @@ const generateId = () => {
   return letter1 + number1 + letter2 + number2
 }
 
-workoutsRouter.get('/', (request, response) => {
-  Workout.find({}).then(workouts => {
-    response.json(workouts)
-  })
+workoutsRouter.get('/', async (request, response) => {
+  const workouts = await Workout.find({})
+  response.json(workouts)
 })
 
 workoutsRouter.get('/:id', (request, response, next) => {
