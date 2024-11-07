@@ -58,7 +58,7 @@ test.only('a valid workout can be added ', async () => {
   const newWorkout = {
     workouts: 'db shoulder press',
     likes: 12,
-    date: '7/10/2024',
+    date: '5/10/2024',
   }
 
   await api
@@ -69,7 +69,7 @@ test.only('a valid workout can be added ', async () => {
 
   const response = await api.get('/api/workouts')
 
-  const workouts = response.body.map(r => r.workout)
+  const workouts = response.body.map(r => r.workouts)
 
   assert.strictEqual(response.body.length, initialWorkouts.length + 1)
 
