@@ -50,7 +50,7 @@ workoutsRouter.post('/', (request, response, next) => {
 
   workout.save()
     .then(savedWorkout => {
-      response.json(savedWorkout)
+      response.status(201).json(savedWorkout)
     })
     .catch(error => next(error))
 })
