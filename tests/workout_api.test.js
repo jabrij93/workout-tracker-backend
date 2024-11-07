@@ -34,14 +34,14 @@ beforeEach(async () => {
   await workoutObject.save()
 })
 
-test.only('workouts are returned as json', async () => {
+test('workouts are returned as json', async () => {
   await api
     .get('/api/workouts')
     .expect(200)
     .expect('Content-Type', /application\/json/)
 })
 
-test.only('there are three workouts', async () => {
+test('there are three workouts', async () => {
   const response = await api.get('/api/workouts')
 
   assert.strictEqual(response.body.length, 3)
@@ -52,6 +52,28 @@ test('the first workout is about pull-ups', async () => {
 
   const workouts = response.body.map(e => e.workouts)
   assert.strictEqual(workouts.includes('pull-ups'), true)
+})
+
+test.only('a valid workout can be added ', async () => {
+  const newWorkout = {
+    workouts: 'db shoulder press',
+    likes: 12,
+    date: '7/10/2024',
+  }
+
+  await api
+    .post('/api/workouts')
+    .send(newWorkout)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/workouts')
+
+  const workouts = response.body.map(r => r.workout)
+
+  assert.strictEqual(response.body.length, initialWorkouts.length + 1)
+
+  assert(workouts.includes('db shoulder press'))
 })
 
 after(async () => {
