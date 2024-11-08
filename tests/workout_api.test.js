@@ -1,36 +1,22 @@
 const { test, after, beforeEach } = require('node:test')
-const Workout = require('../models/workout')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
+const helper = require('./test_helper')
 const supertest = require('supertest')
 const app = require('../app')
 
 const api = supertest(app)
 
-const initialWorkouts = [
-  {
-    workouts: 'pull-ups',
-    likes: 10,
-    date: '5/7/2024',
-  },
-  {
-    workouts: 'bench press',
-    likes: 15,
-    date: '5/7/2024',
-  },
-  { workouts: 'dumbbell press',
-    likes: 20,
-    date: '5/7/2024'
-  }
-]
+const Workout = require('../models/workout')
 
 beforeEach(async () => {
   await Workout.deleteMany({})
-  let workoutObject = new Workout(initialWorkouts[0])
+
+  let workoutObject = new Workout(helper.initialWorkouts[0])
   await workoutObject.save()
-  workoutObject = new Workout(initialWorkouts[1])
+  workoutObject = new Workout(helper.initialWorkouts[1])
   await workoutObject.save()
-  workoutObject = new Workout(initialWorkouts[2])
+  workoutObject = new Workout(helper.initialWorkouts[2])
   await workoutObject.save()
 })
 
