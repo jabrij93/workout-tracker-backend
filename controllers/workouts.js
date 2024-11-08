@@ -57,16 +57,10 @@ workoutsRouter.post('/', async (request, response, next) => {
   }
 })
 
-workoutsRouter.delete('/:id', async (request, response, next) => {
+workoutsRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
-  const workout = await Workout.findByIdAndDelete(id)
-  try {
-    if (workout) {
-      response.status(204).end()
-    }
-  } catch(exception) {
-    next(exception)
-  }
+  await Workout.findByIdAndDelete(id)
+  response.status(204).end()
 })
 
 workoutsRouter.put('/:id', (request, response, next) => {
