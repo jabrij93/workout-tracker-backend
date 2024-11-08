@@ -37,7 +37,7 @@ workoutsRouter.get('/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-workoutsRouter.post('/', (request, response, next) => {
+workoutsRouter.post('/', async (request, response, next) => {
   const body = request.body
 
   const workout = new Workout({
@@ -48,11 +48,8 @@ workoutsRouter.post('/', (request, response, next) => {
     detail: body.detail
   })
 
-  workout.save()
-    .then(savedWorkout => {
-      response.status(201).json(savedWorkout)
-    })
-    .catch(error => next(error))
+  const savedWorkout = await workout.save()
+  response.status(201).json(savedWorkout)
 })
 
 workoutsRouter.delete('/:id', (request, response, next) => {
