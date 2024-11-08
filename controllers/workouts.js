@@ -24,17 +24,18 @@ workoutsRouter.get('/', async (request, response) => {
   response.json(workouts)
 })
 
-workoutsRouter.get('/:id', (request, response, next) => {
+workoutsRouter.get('/:id', async (request, response, next) => {
   const id = request.params.id
-  Workout.findById(id)
-    .then(workout => {
-      if (workout) {
-        response.json(workout)
-      } else {
-        response.status(404).end()
-      }
-    })
-    .catch(error => next(error))
+  try {
+    const workout = await Workout.findById(id)
+    if (workout) {
+      response.json(workout)
+    } else {
+      response.status(404).end()
+    }
+  } catch(exception) {
+    next(exception)
+  }
 })
 
 workoutsRouter.post('/', async (request, response, next) => {
@@ -56,13 +57,16 @@ workoutsRouter.post('/', async (request, response, next) => {
   }
 })
 
-workoutsRouter.delete('/:id', (request, response, next) => {
+workoutsRouter.delete('/:id', async (request, response, next) => {
   const id = request.params.id
-  Workout.findByIdAndDelete(id)
-    .then(() => {
+  const workout = await Workout.findByIdAndDelete(id)
+  try {
+    if (workout) {
       response.status(204).end()
-    })
-    .catch(error => next(error))
+    }
+  } catch(exception) {
+    next(exception)
+  }
 })
 
 workoutsRouter.put('/:id', (request, response, next) => {
