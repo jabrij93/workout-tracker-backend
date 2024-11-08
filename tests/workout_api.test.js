@@ -57,7 +57,7 @@ test('a valid workout can be added ', async () => {
 
   const workouts = response.body.map(r => r.workouts)
 
-  assert.strictEqual(response.body.length, initialWorkouts.length + 1)
+  assert.strictEqual(response.body.length, helper.initialWorkouts.length + 1)
 
   assert(workouts.includes('db shoulder press'))
 })
@@ -74,7 +74,7 @@ test.only('workout without \'workout\' will not be added', async () => {
 
   const response = await api.get('/api/workouts')
 
-  assert.strictEqual(response.body.length, initialWorkouts.length)
+  assert.strictEqual(response.body.length, helper.initialWorkouts.length)
 })
 
 after(async () => {
