@@ -24,17 +24,13 @@ workoutsRouter.get('/', async (request, response) => {
   response.json(workouts)
 })
 
-workoutsRouter.get('/:id', async (request, response, next) => {
+workoutsRouter.get('/:id', async (request, response) => {
   const id = request.params.id
-  try {
-    const workout = await Workout.findById(id)
-    if (workout) {
-      response.json(workout)
-    } else {
-      response.status(404).end()
-    }
-  } catch(exception) {
-    next(exception)
+  const workout = await Workout.findById(id)
+  if (workout) {
+    response.json(workout)
+  } else {
+    response.status(404).end()
   }
 })
 
