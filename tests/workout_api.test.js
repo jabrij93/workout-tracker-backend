@@ -40,7 +40,7 @@ test('the first workout is about pull-ups', async () => {
   assert.strictEqual(workouts.includes('pull-ups'), true)
 })
 
-test.only('a valid workout can be added ', async () => {
+test('a valid workout can be added ', async () => {
   const newWorkout = {
     workouts: 'db shoulder press',
     likes: 12,
@@ -63,7 +63,7 @@ test.only('a valid workout can be added ', async () => {
   assert(workouts.includes('db shoulder press'))
 })
 
-test('workout without \'workout\' will not be added', async () => {
+test.only('workout without \'workout\' will not be added', async () => {
   const newWorkout = {
     detail: '7 mins rest'
   }
@@ -73,9 +73,9 @@ test('workout without \'workout\' will not be added', async () => {
     .send(newWorkout)
     .expect(400)
 
-  const response = await api.get('/api/workouts')
+  const response = await helper.workoutsInDb()
 
-  assert.strictEqual(response.body.length, helper.initialWorkouts.length)
+  assert.strictEqual(response.length, helper.initialWorkouts.length)
 })
 
 after(async () => {
