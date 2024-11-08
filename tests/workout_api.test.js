@@ -78,7 +78,7 @@ test.only('workout without \'workout\' will not be added', async () => {
   assert.strictEqual(response.length, helper.initialWorkouts.length)
 })
 
-test.only('a specific workout can be viewed', async () => {
+test('a specific workout can be viewed', async () => {
   const workoutsAtStart = await helper.workoutsInDb()
 
   const workoutToView = workoutsAtStart[0]
@@ -89,6 +89,22 @@ test.only('a specific workout can be viewed', async () => {
     .expect('Content-Type', /application\/json/)
 
   assert.deepStrictEqual(resultWorkout.body, workoutToView)
+})
+
+test.only('a workout can be deleted', async () => {
+  const workoutsAtStart = await helper.workoutsInDb()
+  const workoutToDelete = workoutsAtStart[0]
+
+  await api
+    .delete(`/api/workouts/${workoutToDelete.id}`)
+    .expect(204)
+
+  const workoutsAtEnd = await helper.workoutsInDb()
+
+  const workouts = workoutsAtEnd.map(r => r.workouts)
+  assert(!workouts.includes(workoutToDelete.workouts))
+
+  assert.strictEqual(workoutsAtEnd.length, helper.initialWorkouts.length - 1)
 })
 
 after(async () => {
