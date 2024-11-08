@@ -78,6 +78,19 @@ test.only('workout without \'workout\' will not be added', async () => {
   assert.strictEqual(response.length, helper.initialWorkouts.length)
 })
 
+test.only('a specific workout can be viewed', async () => {
+  const workoutsAtStart = await helper.workoutsInDb()
+
+  const workoutToView = workoutsAtStart[0]
+
+  const resultWorkout = await api
+    .get(`/api/workouts/${workoutToView.id}`)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  assert.deepStrictEqual(resultWorkout.body, workoutToView)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
