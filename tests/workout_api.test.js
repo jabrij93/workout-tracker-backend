@@ -12,12 +12,9 @@ const Workout = require('../models/workout')
 beforeEach(async () => {
   await Workout.deleteMany({})
 
-  let workoutObject = new Workout(helper.initialWorkouts[0])
-  await workoutObject.save()
-  workoutObject = new Workout(helper.initialWorkouts[1])
-  await workoutObject.save()
-  workoutObject = new Workout(helper.initialWorkouts[2])
-  await workoutObject.save()
+  const workoutObject = helper.initialWorkouts.map(workout => new Workout(workout))
+  const promiseArray = workoutObject.map(workout => workout.save())
+  await Promise.all(promiseArray)
 })
 
 test('workouts are returned as json', async () => {
