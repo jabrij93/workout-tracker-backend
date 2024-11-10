@@ -50,9 +50,8 @@ test('a valid workout can be added ', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
-  // const response = await api.get('/api/workouts')
   const workoutsAtEnd = await helper.workoutsInDb()
-  console.log('workoutsAtEnd', workoutsAtEnd)
+
   assert.strictEqual(workoutsAtEnd.length, helper.initialWorkouts.length + 1)
 
   const workouts = workoutsAtEnd.map(r => r.workouts)
