@@ -60,7 +60,7 @@ test('a valid workout can be added ', async () => {
   assert(workouts.includes('db shoulder press'))
 })
 
-test.only('workout without \'workout\' will not be added', async () => {
+test('workout without \'workout\' will not be added', async () => {
   const newWorkout = {
     detail: '7 mins rest'
   }
@@ -88,7 +88,22 @@ test('a specific workout can be viewed', async () => {
   assert.deepStrictEqual(resultWorkout.body, workoutToView)
 })
 
-test.only('a workout can be deleted', async () => {
+test.only('verifies that the unique identifier property is named id', async () => {
+  const workoutsAtStart = await helper.workoutsInDb()
+
+  const workoutToView = workoutsAtStart[0]
+
+  const resultWorkout = await api
+    .get(`/api/workouts/${workoutToView.id}`)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  console.log('resultWorkout', resultWorkout)
+
+  assert.deepStrictEqual(resultWorkout._body.id, '67310a57cdb22d91b435d67e')
+})
+
+test('a workout can be deleted', async () => {
   const workoutsAtStart = await helper.workoutsInDb()
   const workoutToDelete = workoutsAtStart[0]
 
