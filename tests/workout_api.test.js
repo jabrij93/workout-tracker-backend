@@ -98,9 +98,7 @@ test.only('verifies that the unique identifier property is named id', async () =
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-  console.log('resultWorkout', resultWorkout)
-
-  assert.deepStrictEqual(resultWorkout._body.id, '67310a57cdb22d91b435d67e')
+  assert.ok(resultWorkout._body.hasOwnProperty('id'))
 })
 
 test('a workout can be deleted', async () => {
