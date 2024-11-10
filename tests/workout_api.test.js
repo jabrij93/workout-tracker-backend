@@ -98,7 +98,7 @@ test.only('verifies that the unique identifier property is named id', async () =
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-  assert.ok(resultWorkout._body.hasOwnProperty('id'))
+  assert.ok(Object.prototype.hasOwnProperty.call(resultWorkout._body, 'id'))
 })
 
 test('a workout can be deleted', async () => {
