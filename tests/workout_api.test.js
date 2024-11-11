@@ -103,13 +103,30 @@ test('a specific workout can be viewed', async () => {
   assert.deepStrictEqual(resultWorkout.body, workoutToView)
 })
 
-test.only('verifies that the unique identifier property is named id', async () => {
+test.only('verifies that likes can be increased to a stored data in db', async () => {
+  const workoutsAtStart = await helper.workoutsInDb()
+  console.log('workoutsAtStart', workoutsAtStart)
+
+  const workoutToView = workoutsAtStart[2]
+
+  // const resultWorkout = await api
+  //   .get(`/api/workouts/${workoutToView.id}`)
+  const resultWorkout = await api
+    .put(`/api/workouts/${workoutToView.id}`)
+    .send({ ...workoutToView, likes: workoutToView.likes + 1 })
+
+  console.log('resultWorkoutbody', resultWorkout.body)
+
+  assert.strictEqual(resultWorkout.body.likes, 11)
+})
+
+test('verifies that the unique identifier property of the data is \'id\'', async () => {
   const workoutsAtStart = await helper.workoutsInDb()
 
   const workoutToView = workoutsAtStart[0]
 
   const resultWorkout = await api
-    .get(`/api/workouts/${workoutToView.id}`)
+    .put(`/api/workouts/${workoutToView.id}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
