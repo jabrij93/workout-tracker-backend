@@ -88,6 +88,7 @@ test.only('workout without \'likes\', \'likes\' value default to 0', async () =>
 
   assert.strictEqual(response.length, helper.initialWorkouts.length + 1)
   assert.strictEqual(response[3].likes, 0)
+  console.log('response[3]', response[3])
   
 })
 
