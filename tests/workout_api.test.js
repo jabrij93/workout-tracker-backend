@@ -59,7 +59,7 @@ test('a valid workout can be added ', async () => {
   assert(workouts.includes('db shoulder press'))
 })
 
-test.only('workout without \'workout\' will not be added', async () => {
+test('workout without \'workout\' will not be added', async () => {
   const newWorkout = {
     detail: '7 mins rest'
   }
@@ -88,8 +88,6 @@ test('workout without \'likes\', \'likes\' value default to 0', async () => {
 
   assert.strictEqual(response.length, helper.initialWorkouts.length + 1)
   assert.strictEqual(response[3].likes, 0)
-  console.log('response[3]', response[3])
-  
 })
 
 test('a specific workout can be viewed', async () => {
@@ -118,7 +116,7 @@ test.only('verifies that the unique identifier property is named id', async () =
   assert.ok(Object.prototype.hasOwnProperty.call(resultWorkout._body, 'id'))
 })
 
-test('a workout can be deleted', async () => {
+test.only('a workout can be deleted', async () => {
   const workoutsAtStart = await helper.workoutsInDb()
   const workoutToDelete = workoutsAtStart[0]
 
