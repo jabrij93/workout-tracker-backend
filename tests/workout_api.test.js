@@ -87,6 +87,8 @@ test.only('workout without \'likes\', \'likes\' value default to 0', async () =>
   const response = await helper.workoutsInDb()
 
   assert.strictEqual(response.length, helper.initialWorkouts.length + 1)
+  assert.strictEqual(response[3].likes, 0)
+  
 })
 
 test('a specific workout can be viewed', async () => {
