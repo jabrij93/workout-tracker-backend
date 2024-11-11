@@ -74,6 +74,21 @@ test('workout without \'workout\' will not be added', async () => {
   assert.strictEqual(response.length, helper.initialWorkouts.length)
 })
 
+test('workout without \'likes\', \'likes\' value default to 0', async () => {
+  const newWorkout = {
+    workouts: 'weighted pull-ups'
+  }
+
+  await api
+    .post('/api/workouts')
+    .send(newWorkout)
+    .expect(400)
+
+  const response = await helper.workoutsInDb()
+
+  assert.strictEqual(response.length, helper.initialWorkouts.length)
+})
+
 test('a specific workout can be viewed', async () => {
   const workoutsAtStart = await helper.workoutsInDb()
 
