@@ -30,6 +30,11 @@ const workoutsInDb = async () => {
   return workouts.map(workout => workout.toJSON())
 }
 
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(u => u.toJSON())
+}
+
 module.exports = {
-  initialWorkouts, nonExistingId, workoutsInDb
+  initialWorkouts, nonExistingId, workoutsInDb, usersInDb
 }
