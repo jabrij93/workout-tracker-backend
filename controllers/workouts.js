@@ -27,6 +27,7 @@ workoutsRouter.get('/', async (request, response) => {
     username: 1,
     name: 1 // Specify fields you want from User model
   })
+  console.log('workouts', workouts)
   response.json(workouts)
 })
 
