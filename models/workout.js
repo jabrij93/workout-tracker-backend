@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const User = require('../models/user')
 
 const workoutSchema = new mongoose.Schema({
   workouts: {
@@ -17,7 +18,11 @@ const workoutSchema = new mongoose.Schema({
     },
   },
   detail: String,
-  likes: Number
+  likes: Number,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
 })
 
 // Pre-save hook to reformat date to "dd-mm-yyyy"

@@ -23,7 +23,10 @@ const generateId = () => {
 }
 
 workoutsRouter.get('/', async (request, response) => {
-  const workouts = await Workout.find({})
+  const workouts = await Workout.find({}).populate('user', {
+    username: 1,
+    name: 1 // Specify fields you want from User model
+  })
   response.json(workouts)
 })
 
