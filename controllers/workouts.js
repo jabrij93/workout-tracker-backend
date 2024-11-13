@@ -53,6 +53,7 @@ workoutsRouter.post('/', async (request, response) => {
 
   const savedWorkout = await workout.save()
   user.workouts = user.workouts.concat(savedWorkout._id)
+  console.log('user.workouts', user.workouts)
   await user.save()
 
   response.status(201).json(savedWorkout)
