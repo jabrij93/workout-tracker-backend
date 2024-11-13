@@ -1,5 +1,8 @@
 const workoutsRouter = require('express').Router()
 const Workout = require('../models/workout')
+const User = require('../models/user')
+
+const { usersInDb } = require('../tests/test_helper')
 
 const generateId = () => {
   // Generate two random lowercase letters (a-z)
@@ -37,15 +40,21 @@ workoutsRouter.get('/:id', async (request, response) => {
 workoutsRouter.post('/', async (request, response) => {
   const body = request.body
 
+  const user = await User.findById(body.userId)
+
   const workout = new Workout({
     id: generateId(),
     workouts: body.workouts,
     likes: body.likes ? Number(body.likes) : 0,
     date: body.date ? body.date : new Intl.DateTimeFormat('en-GB').format(new Date()),
-    detail: body.detail
+    detail: body.detail,
+    user: user.id
   })
 
   const savedWorkout = await workout.save()
+  user.workouts = user.workouts.concat(savedWorkout._id)
+  await user.save()
+
   response.status(201).json(savedWorkout)
 })
 
