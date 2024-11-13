@@ -105,7 +105,7 @@ test('a specific workout can be viewed', async () => {
   assert.deepStrictEqual(resultWorkout.body, workoutToView)
 })
 
-test.only('verifies that likes can be increased to a stored data in db', async () => {
+test('verifies that likes can be increased to a stored data in db', async () => {
   const workoutsAtStart = await helper.workoutsInDb()
   console.log('workoutsAtStart', workoutsAtStart)
 
@@ -135,7 +135,7 @@ test('verifies that the unique identifier property of the data is \'id\'', async
   assert.ok(Object.prototype.hasOwnProperty.call(resultWorkout._body, 'id'))
 })
 
-test.only('a workout can be deleted', async () => {
+test('a workout can be deleted', async () => {
   const workoutsAtStart = await helper.workoutsInDb()
   const workoutToDelete = workoutsAtStart[0]
 
@@ -151,7 +151,7 @@ test.only('a workout can be deleted', async () => {
   assert.strictEqual(workoutsAtEnd.length, helper.initialWorkouts.length - 1)
 })
 
-describe('when there is initially one user in db', () => {
+describe.only('when there is initially one user in db', () => {
   beforeEach(async () => {
     await User.deleteMany({})
 
@@ -161,7 +161,7 @@ describe('when there is initially one user in db', () => {
     await user.save()
   })
 
-  test('creation succeeds with a fresh username', async () => {
+  test.only('creation succeeds with a fresh username', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
