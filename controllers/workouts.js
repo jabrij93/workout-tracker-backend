@@ -1,6 +1,7 @@
 const workoutsRouter = require('express').Router()
 const Workout = require('../models/workout')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 const { usersInDb } = require('../tests/test_helper')
 
@@ -20,6 +21,14 @@ const generateId = () => {
 
   // Combine the two letters and two digits
   return letter1 + number1 + letter2 + number2
+}
+
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
 }
 
 workoutsRouter.get('/', async (request, response) => {
@@ -44,7 +53,13 @@ workoutsRouter.get('/:id', async (request, response) => {
 workoutsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  const user = await User.findById(body.userId)
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+
+  // const user = await User.findById(body.userId)
 
   const workout = new Workout({
     id: generateId(),
