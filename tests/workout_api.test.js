@@ -183,7 +183,7 @@ describe.only('when there is initially one user in db', () => {
     assert(usernames.includes(newUser.username))
   })
 
-  test.only('if username is less than 3 characters long', async () => {
+  test('if username is less than 3 characters long', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
@@ -202,6 +202,24 @@ describe.only('when there is initially one user in db', () => {
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 
+  test.only('if password is less than 4 characters long', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: 'sal',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+  })
 })
 
 after(async () => {
