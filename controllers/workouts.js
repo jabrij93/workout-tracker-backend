@@ -53,11 +53,7 @@ workoutsRouter.get('/:id', async (request, response) => {
 workoutsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid' })
-  }
-  const user = await User.findById(decodedToken.id)
+  const user = request.user
 
   // const user = await User.findById(body.userId)
 
@@ -82,11 +78,7 @@ workoutsRouter.post('/', async (request, response) => {
 workoutsRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid' })
-  }
-  const user = await User.findById(decodedToken.id)
+  const user = request.user
   console.log('user222', user)
 
   const workout = await Workout.findById(id)
