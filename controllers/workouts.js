@@ -68,7 +68,7 @@ workoutsRouter.post('/', async (request, response) => {
 
   const savedWorkout = await workout.save()
   user.workouts = user.workouts.concat(savedWorkout._id)
-  console.log('user.workouts', user.workouts)
+
   await user.save()
 
   response.status(201).json(savedWorkout)
@@ -79,10 +79,8 @@ workoutsRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
 
   const user = request.user
-  console.log('user222', user)
 
   const workout = await Workout.findById(id)
-  console.log('workout222', workout)
 
   if (workout.user.toString() === user._id.toString()) {
     await Workout.findByIdAndDelete(id)
