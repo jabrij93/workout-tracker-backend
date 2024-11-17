@@ -78,10 +78,24 @@ workoutsRouter.post('/', async (request, response) => {
   response.status(201).json(savedWorkout)
 })
 
+
 workoutsRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
-  await Workout.findByIdAndDelete(id)
-  response.status(204).end()
+
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  console.log('user222', user)
+
+  const workout = await Workout.findById(id)
+  console.log('workout222', workout)
+
+  if (workout.user.toString() === user._id.toString()) {
+    await Workout.findByIdAndDelete(id)
+    response.status(204).end()
+  }
 })
 
 workoutsRouter.put('/:id', (request, response, next) => {
