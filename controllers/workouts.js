@@ -23,13 +23,13 @@ const generateId = () => {
   return letter1 + number1 + letter2 + number2
 }
 
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
+// const getTokenFrom = request => {
+//   const authorization = request.get('authorization')
+//   if (authorization && authorization.startsWith('Bearer ')) {
+//     return authorization.replace('Bearer ', '')
+//   }
+//   return null
+// }
 
 workoutsRouter.get('/', async (request, response) => {
   const workouts = await Workout.find({}).populate('user', {
@@ -53,7 +53,7 @@ workoutsRouter.get('/:id', async (request, response) => {
 workoutsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
