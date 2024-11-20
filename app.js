@@ -29,9 +29,9 @@ app.use(middleware.tokenExtractor)
 app.use(middleware.userExtractor, workoutsRouter)
 app.use(middleware.requestLogger)
 
+app.use('/api/login', loginRouter)
 app.use('/api/workouts', workoutsRouter)
 app.use('/api/users', usersRouter)
-app.use('/api/login', loginRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)

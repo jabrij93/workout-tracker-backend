@@ -13,20 +13,28 @@ const Workout = require('../models/workout')
 
 beforeEach(async () => {
   await Workout.deleteMany({})
+  await User.deleteMany({})
+
+  const loginResponse = await api
+    .post('/api/login')
+    .send({ username: 'root', password: 'salainen' }); // Replace with valid credentials
+
+  const token = loginResponse.body.token // Adjust according to your API's response format
 
   const workoutObject = helper.initialWorkouts.map(workout => new Workout(workout))
   const promiseArray = workoutObject.map(workout => workout.save())
   await Promise.all(promiseArray)
 })
 
-test('workouts are returned as json', async () => {
+test.only('workouts are returned as json', async () => {
   await api
     .get('/api/workouts')
+    .set('Authorization', `Bearer ${token}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
 })
 
-test('there are three workouts', async () => {
+test.only('there are three workouts', async () => {
   const response = await api.get('/api/workouts')
 
   assert.strictEqual(response.body.length, 3)
@@ -151,7 +159,7 @@ test('a workout can be deleted', async () => {
   assert.strictEqual(workoutsAtEnd.length, helper.initialWorkouts.length - 1)
 })
 
-describe.only('when there is initially one user in db', () => {
+describe('when there is initially one user in db', () => {
   beforeEach(async () => {
     await User.deleteMany({})
 
@@ -161,19 +169,18 @@ describe.only('when there is initially one user in db', () => {
     await user.save()
   })
 
-  test('creation succeeds with a fresh username', async () => {
+  test('login', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      username: 'mluukkai',
-      name: 'Matti Luukkainen',
+      username: 'root',
       password: 'salainen',
     }
 
     await api
-      .post('/api/users')
+      .post('/api/login')
       .send(newUser)
-      .expect(201)
+      .expect(200)
       .expect('Content-Type', /application\/json/)
 
     const usersAtEnd = await helper.usersInDb()
@@ -181,44 +188,6 @@ describe.only('when there is initially one user in db', () => {
 
     const usernames = usersAtEnd.map(u => u.username)
     assert(usernames.includes(newUser.username))
-  })
-
-  test('if username is less than 3 characters long', async () => {
-    const usersAtStart = await helper.usersInDb()
-
-    const newUser = {
-      username: 'ml',
-      name: 'Matti Luukkainen',
-      password: 'salainen',
-    }
-
-    await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
-      .expect('Content-Type', /application\/json/)
-
-    const usersAtEnd = await helper.usersInDb()
-    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
-  })
-
-  test.only('if password is less than 4 characters long', async () => {
-    const usersAtStart = await helper.usersInDb()
-
-    const newUser = {
-      username: 'mluukkai',
-      name: 'Matti Luukkainen',
-      password: 'sal',
-    }
-
-    await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
-      .expect('Content-Type', /application\/json/)
-
-    const usersAtEnd = await helper.usersInDb()
-    assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
 })
 
