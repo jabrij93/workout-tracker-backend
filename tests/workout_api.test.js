@@ -67,7 +67,7 @@ test('the first workout is about bench press', async () => {
   assert.strictEqual(workouts.includes('bench press'), true)
 })
 
-test.only('a valid workout can be added ', async () => {
+test('a valid workout can be added ', async () => {
   const token = await getAuthToken('root', 'salainen')
 
   const newWorkout = {
@@ -92,13 +92,15 @@ test.only('a valid workout can be added ', async () => {
   assert(workouts.includes('db shoulder press'))
 })
 
-test('workout without \'workout\' will not be added', async () => {
+test.only('workout without \'workout\' will not be added', async () => {
+  const token = await getAuthToken('root', 'salainen')
   const newWorkout = {
     detail: '7 mins rest'
   }
 
   await api
     .post('/api/workouts')
+    .set('Authorization', `Bearer ${token}`)
     .send(newWorkout)
     .expect(400)
 
@@ -108,12 +110,15 @@ test('workout without \'workout\' will not be added', async () => {
 })
 
 test('workout without \'likes\', \'likes\' value default to 0', async () => {
+  const token = await getAuthToken('root', 'salainen')
+
   const newWorkout = {
     workouts: 'weighted pull-ups'
   }
 
   await api
     .post('/api/workouts')
+    .set('Authorization', `Bearer ${token}`)
     .send(newWorkout)
     .expect(201)
 
