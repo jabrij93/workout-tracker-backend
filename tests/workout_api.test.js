@@ -55,7 +55,7 @@ test('there are three workouts', async () => {
   assert.strictEqual(response.body.length, 3)
 })
 
-test.only('the first workout is about bench press', async () => {
+test('the first workout is about bench press', async () => {
   const loginResponse = await api
     .post('/api/login')
     .send({ username: 'root', password: 'salainen' })
@@ -71,7 +71,13 @@ test.only('the first workout is about bench press', async () => {
   assert.strictEqual(workouts.includes('bench press'), true)
 })
 
-test('a valid workout can be added ', async () => {
+test.only('a valid workout can be added ', async () => {
+  const loginResponse = await api
+    .post('/api/login')
+    .send({ username: 'root', password: 'salainen' })
+
+  const token = loginResponse.body.token
+
   const newWorkout = {
     workouts: 'db shoulder press',
     likes: 12,
@@ -80,6 +86,7 @@ test('a valid workout can be added ', async () => {
 
   await api
     .post('/api/workouts')
+    .set('Authorization', `Bearer ${token}`)
     .send(newWorkout)
     .expect(201)
     .expect('Content-Type', /application\/json/)
