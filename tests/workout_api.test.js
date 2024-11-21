@@ -26,12 +26,16 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 })
 
-test('workouts are returned as json', async () => {
+const getAuthToken = async (username, password) => {
   const loginResponse = await api
     .post('/api/login')
-    .send({ username: 'root', password: 'salainen' })
+    .send({ username, password })
 
-  const token = loginResponse.body.token
+  return loginResponse.body.token
+}
+
+test('workouts are returned as json', async () => {
+  const token = await getAuthToken('root', 'salainen')
 
   await api
     .get('/api/workouts')
@@ -41,11 +45,7 @@ test('workouts are returned as json', async () => {
 })
 
 test('there are three workouts', async () => {
-  const loginResponse = await api
-    .post('/api/login')
-    .send({ username: 'root', password: 'salainen' })
-
-  const token = loginResponse.body.token
+  const token = await getAuthToken('root', 'salainen')
 
   const response = await api.get('/api/workouts')
     .set('Authorization', `Bearer ${token}`)
@@ -56,11 +56,7 @@ test('there are three workouts', async () => {
 })
 
 test('the first workout is about bench press', async () => {
-  const loginResponse = await api
-    .post('/api/login')
-    .send({ username: 'root', password: 'salainen' })
-
-  const token = loginResponse.body.token
+  const token = await getAuthToken('root', 'salainen')
 
   const response = await api.get('/api/workouts')
     .set('Authorization', `Bearer ${token}`)
@@ -72,11 +68,7 @@ test('the first workout is about bench press', async () => {
 })
 
 test.only('a valid workout can be added ', async () => {
-  const loginResponse = await api
-    .post('/api/login')
-    .send({ username: 'root', password: 'salainen' })
-
-  const token = loginResponse.body.token
+  const token = await getAuthToken('root', 'salainen')
 
   const newWorkout = {
     workouts: 'db shoulder press',
