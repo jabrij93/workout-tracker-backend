@@ -109,7 +109,7 @@ test('workout without \'workout\' will not be added', async () => {
   assert.strictEqual(response.length, helper.initialWorkouts.length)
 })
 
-test.only('workout without \'likes\', \'likes\' value default to 0', async () => {
+test('workout without \'likes\', \'likes\' value default to 0', async () => {
   const token = await getAuthToken('root', 'salainen')
 
   const newWorkout = {
@@ -128,13 +128,15 @@ test.only('workout without \'likes\', \'likes\' value default to 0', async () =>
   assert.strictEqual(response[3].likes, 0)
 })
 
-test('a specific workout can be viewed', async () => {
+test.only('a specific workout can be viewed', async () => {
+  const token = await getAuthToken('root', 'salainen')
   const workoutsAtStart = await helper.workoutsInDb()
 
   const workoutToView = workoutsAtStart[0]
 
   const resultWorkout = await api
     .get(`/api/workouts/${workoutToView.id}`)
+    .set('Authorization', `Bearer ${token}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
