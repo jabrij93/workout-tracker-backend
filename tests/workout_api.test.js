@@ -177,7 +177,7 @@ test('verifies that the unique identifier property of the data is \'id\'', async
   assert.ok(Object.prototype.hasOwnProperty.call(resultWorkout._body, 'id'))
 })
 
-test.only('a workout can be deleted', async () => {
+test('a workout can be deleted', async () => {
   let token = await getAuthToken('root', 'salainen')
 
   const newWorkout = {
@@ -226,21 +226,17 @@ test.only('a workout can be deleted', async () => {
   assert.strictEqual(workoutsAfterDelete.length, helper.initialWorkouts.length)
 })
 
-describe('when there is initially one user in db', () => {
-  beforeEach(async () => {
-    await User.deleteMany({})
-
-    const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root', passwordHash })
-
-    await user.save()
-  })
-
-  test('login', async () => {
+describe.only('create new user', () => {
+  test.only('login user', async () => {
     const usersAtStart = await helper.usersInDb()
 
+    const passwordHash = await bcrypt.hash('salainen', 10)
+    const user = new User({ username: 'mluukkai', passwordHash })
+
+    await user.save()
+
     const newUser = {
-      username: 'root',
+      username: 'mluukkai',
       password: 'salainen',
     }
 
