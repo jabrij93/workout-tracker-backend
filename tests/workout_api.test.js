@@ -10,16 +10,16 @@ const User = require('../models/user')
 const api = supertest(app)
 
 const Workout = require('../models/workout')
+const { log } = require('node:console')
 
 beforeEach(async () => {
   await Workout.deleteMany({})
   await User.deleteMany({})
 
-  const loginResponse = await api
-    .post('/api/login')
-    .send({ username: 'root', password: 'salainen' }); // Replace with valid credentials
+  const passwordHash = await bcrypt.hash('salainen', 10)
+  const user = new User({ username: 'root', passwordHash })
 
-  const token = loginResponse.body.token // Adjust according to your API's response format
+  await user.save()
 
   const workoutObject = helper.initialWorkouts.map(workout => new Workout(workout))
   const promiseArray = workoutObject.map(workout => workout.save())
@@ -27,6 +27,17 @@ beforeEach(async () => {
 })
 
 test.only('workouts are returned as json', async () => {
+  const loginResponse = await api
+    .post('/api/login')
+    .send({ username: 'root', password: 'salainen' }) // Replace with valid credentials
+
+  console.log('Login Response:', loginResponse.body)
+
+  const token = loginResponse.body.token
+  assert.ok(token, 'Token should not be undefined')
+
+  console.log('TOKEN', token)
+
   await api
     .get('/api/workouts')
     .set('Authorization', `Bearer ${token}`)
@@ -34,7 +45,7 @@ test.only('workouts are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
-test.only('there are three workouts', async () => {
+test('there are three workouts', async () => {
   const response = await api.get('/api/workouts')
 
   assert.strictEqual(response.body.length, 3)
