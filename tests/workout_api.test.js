@@ -92,7 +92,7 @@ test('a valid workout can be added ', async () => {
   assert(workouts.includes('db shoulder press'))
 })
 
-test.only('workout without \'workout\' will not be added', async () => {
+test('workout without \'workout\' will not be added', async () => {
   const token = await getAuthToken('root', 'salainen')
   const newWorkout = {
     detail: '7 mins rest'
@@ -109,7 +109,7 @@ test.only('workout without \'workout\' will not be added', async () => {
   assert.strictEqual(response.length, helper.initialWorkouts.length)
 })
 
-test('workout without \'likes\', \'likes\' value default to 0', async () => {
+test.only('workout without \'likes\', \'likes\' value default to 0', async () => {
   const token = await getAuthToken('root', 'salainen')
 
   const newWorkout = {
