@@ -40,7 +40,7 @@ test('workouts are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
-test.only('there are three workouts', async () => {
+test('there are three workouts', async () => {
   const loginResponse = await api
     .post('/api/login')
     .send({ username: 'root', password: 'salainen' })
@@ -55,11 +55,20 @@ test.only('there are three workouts', async () => {
   assert.strictEqual(response.body.length, 3)
 })
 
-test('the first workout is about pull-ups', async () => {
+test.only('the first workout is about bench press', async () => {
+  const loginResponse = await api
+    .post('/api/login')
+    .send({ username: 'root', password: 'salainen' })
+
+  const token = loginResponse.body.token
+
   const response = await api.get('/api/workouts')
+    .set('Authorization', `Bearer ${token}`)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
 
   const workouts = response.body.map(e => e.workouts)
-  assert.strictEqual(workouts.includes('pull-ups'), true)
+  assert.strictEqual(workouts.includes('bench press'), true)
 })
 
 test('a valid workout can be added ', async () => {
