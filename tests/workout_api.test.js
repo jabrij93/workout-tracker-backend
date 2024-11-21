@@ -162,7 +162,7 @@ test('verifies that likes can be increased to a stored data in db', async () => 
   assert.strictEqual(resultWorkout.body.likes, 11)
 })
 
-test.only('verifies that the unique identifier property of the data is \'id\'', async () => {
+test('verifies that the unique identifier property of the data is \'id\'', async () => {
   const token = await getAuthToken('root', 'salainen')
   const workoutsAtStart = await helper.workoutsInDb()
 
@@ -177,20 +177,53 @@ test.only('verifies that the unique identifier property of the data is \'id\'', 
   assert.ok(Object.prototype.hasOwnProperty.call(resultWorkout._body, 'id'))
 })
 
-test('a workout can be deleted', async () => {
-  const workoutsAtStart = await helper.workoutsInDb()
-  const workoutToDelete = workoutsAtStart[0]
+test.only('a workout can be deleted', async () => {
+  let token = await getAuthToken('root', 'salainen')
 
+  const newWorkout = {
+    workouts: 'weighted pull-ups',
+    likes: 12,
+    date: '10/10/2024',
+  }
+
+  // Create a new workout
+  await api
+    .post('/api/workouts')
+    .set('Authorization', `Bearer ${token}`)
+    .send(newWorkout)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  // Fetch workouts from the database
+  const workoutsBeforeDelete = await helper.workoutsInDb()
+  console.log('Workouts before delete:', workoutsBeforeDelete)
+
+  // Find the workout to delete
+  const workoutToDelete = workoutsBeforeDelete.find(
+    (workout) => workout.workouts === 'weighted pull-ups'
+  )
+  console.log('Workout to delete:', workoutToDelete)
+
+  // Ensure the workout is added successfully
+  assert.strictEqual(workoutsBeforeDelete.length, helper.initialWorkouts.length + 1)
+  assert(workoutToDelete !== undefined)
+
+  // Delete the workout
   await api
     .delete(`/api/workouts/${workoutToDelete.id}`)
+    .set('Authorization', `Bearer ${token}`)
     .expect(204)
 
-  const workoutsAtEnd = await helper.workoutsInDb()
+  // Fetch workouts again
+  const workoutsAfterDelete = await helper.workoutsInDb()
+  console.log('Workouts after delete:', workoutsAfterDelete)
 
-  const workouts = workoutsAtEnd.map(r => r.workouts)
-  assert(!workouts.includes(workoutToDelete.workouts))
+  // Verify the workout is deleted
+  const workoutNames = workoutsAfterDelete.map((r) => r.workouts)
+  assert(!workoutNames.includes('weighted pull-ups'))
 
-  assert.strictEqual(workoutsAtEnd.length, helper.initialWorkouts.length - 1)
+  // Verify the length is back to the initial count
+  assert.strictEqual(workoutsAfterDelete.length, helper.initialWorkouts.length)
 })
 
 describe('when there is initially one user in db', () => {

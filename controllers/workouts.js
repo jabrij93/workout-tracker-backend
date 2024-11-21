@@ -74,17 +74,23 @@ workoutsRouter.post('/', async (request, response) => {
   response.status(201).json(savedWorkout)
 })
 
-
 workoutsRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
 
   const user = request.user
 
-  const workout = await Workout.findById(id)
+  try {
+    const workout = await Workout.findById(id)
 
-  if (workout.user.toString() === user._id.toString()) {
-    await Workout.findByIdAndDelete(id)
-    response.status(204).end()
+    if (workout.user.toString() === user._id.toString()) {
+      await Workout.findByIdAndDelete(id)
+      response.status(204).end()
+    } else {
+      return response.status(403).json({ error: 'Unauthorized to delete this workout' })
+    }
+  } catch (error) {
+    console.error('Error deleting workout:', error)
+    return response.status(500).json({ error: 'Internal server error' })
   }
 })
 
