@@ -26,17 +26,12 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 })
 
-test.only('workouts are returned as json', async () => {
+test('workouts are returned as json', async () => {
   const loginResponse = await api
     .post('/api/login')
-    .send({ username: 'root', password: 'salainen' }) // Replace with valid credentials
-
-  console.log('Login Response:', loginResponse.body)
+    .send({ username: 'root', password: 'salainen' })
 
   const token = loginResponse.body.token
-  assert.ok(token, 'Token should not be undefined')
-
-  console.log('TOKEN', token)
 
   await api
     .get('/api/workouts')
@@ -45,8 +40,17 @@ test.only('workouts are returned as json', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
-test('there are three workouts', async () => {
+test.only('there are three workouts', async () => {
+  const loginResponse = await api
+    .post('/api/login')
+    .send({ username: 'root', password: 'salainen' })
+
+  const token = loginResponse.body.token
+
   const response = await api.get('/api/workouts')
+    .set('Authorization', `Bearer ${token}`)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
 
   assert.strictEqual(response.body.length, 3)
 })
