@@ -128,7 +128,7 @@ test('workout without \'likes\', \'likes\' value default to 0', async () => {
   assert.strictEqual(response[3].likes, 0)
 })
 
-test.only('a specific workout can be viewed', async () => {
+test('a specific workout can be viewed', async () => {
   const token = await getAuthToken('root', 'salainen')
   const workoutsAtStart = await helper.workoutsInDb()
 
@@ -144,6 +144,7 @@ test.only('a specific workout can be viewed', async () => {
 })
 
 test('verifies that likes can be increased to a stored data in db', async () => {
+  const token = await getAuthToken('root', 'salainen')
   const workoutsAtStart = await helper.workoutsInDb()
   console.log('workoutsAtStart', workoutsAtStart)
 
@@ -153,6 +154,7 @@ test('verifies that likes can be increased to a stored data in db', async () => 
   //   .get(`/api/workouts/${workoutToView.id}`)
   const resultWorkout = await api
     .put(`/api/workouts/${workoutToView.id}`)
+    .set('Authorization', `Bearer ${token}`)
     .send({ ...workoutToView, likes: workoutToView.likes + 1 })
 
   console.log('resultWorkoutbody', resultWorkout.body)
@@ -160,13 +162,15 @@ test('verifies that likes can be increased to a stored data in db', async () => 
   assert.strictEqual(resultWorkout.body.likes, 11)
 })
 
-test('verifies that the unique identifier property of the data is \'id\'', async () => {
+test.only('verifies that the unique identifier property of the data is \'id\'', async () => {
+  const token = await getAuthToken('root', 'salainen')
   const workoutsAtStart = await helper.workoutsInDb()
 
   const workoutToView = workoutsAtStart[0]
 
   const resultWorkout = await api
     .put(`/api/workouts/${workoutToView.id}`)
+    .set('Authorization', `Bearer ${token}`)
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
