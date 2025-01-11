@@ -6,11 +6,8 @@ const supertest = require('supertest')
 const app = require('../app')
 const bcrypt = require('bcryptjs')
 const User = require('../models/user')
-
 const api = supertest(app)
-
 const Workout = require('../models/workout')
-const { log } = require('node:console')
 
 beforeEach(async () => {
   await Workout.deleteMany({})
