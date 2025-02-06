@@ -71,6 +71,7 @@ workoutsRouter.post('/', async (request, response) => {
 
   await user.save()
 
+  console.log('Workout saved:', savedWorkout) // Log the saved workout
   response.status(201).json(savedWorkout)
 })
 
