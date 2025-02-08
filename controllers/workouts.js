@@ -23,14 +23,6 @@ const generateId = () => {
   return letter1 + number1 + letter2 + number2
 }
 
-// const getTokenFrom = request => {
-//   const authorization = request.get('authorization')
-//   if (authorization && authorization.startsWith('Bearer ')) {
-//     return authorization.replace('Bearer ', '')
-//   }
-//   return null
-// }
-
 workoutsRouter.get('/', async (request, response) => {
   const workouts = await Workout.find({}).populate('user', {
     username: 1,
