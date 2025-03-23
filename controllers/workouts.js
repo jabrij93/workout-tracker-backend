@@ -1,9 +1,5 @@
 const workoutsRouter = require('express').Router()
 const Workout = require('../models/workout')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
-
-const { usersInDb } = require('../tests/test_helper')
 
 const generateId = () => {
   // Generate two random lowercase letters (a-z)
