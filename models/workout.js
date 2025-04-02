@@ -18,10 +18,13 @@ const workoutSchema = new mongoose.Schema({
     },
   },
   detail: String,
-  likes: Number,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  },
+  likes: {
+    type : Number,
+    default: 0
   },
 })
 
