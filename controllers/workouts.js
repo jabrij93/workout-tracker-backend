@@ -48,7 +48,7 @@ workoutsRouter.post('/', async (request, response) => {
   const workout = new Workout({
     id: generateId(),
     workouts: body.workouts,
-    likes: body.likes ? Number(body.likes) : 0,
+    likes: body.likes === undefined ? 0 : Number(body.likes),
     date: body.date ? body.date : new Intl.DateTimeFormat('en-GB').format(new Date()),
     detail: body.detail,
     user: user.id
@@ -65,7 +65,6 @@ workoutsRouter.post('/', async (request, response) => {
 
 workoutsRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
-
   const user = request.user
 
   try {
@@ -83,21 +82,29 @@ workoutsRouter.delete('/:id', async (request, response) => {
   }
 })
 
-workoutsRouter.put('/:id', (request, response, next) => {
+workoutsRouter.put('/:id', async (request, response) => {
   const body = request.body
 
   const workout = {
     workouts: body.workouts,
-    likes: body.likes ? Number(body.likes) : 0,
+    likes: body.likes,
     date: body.date ? body.date : new Intl.DateTimeFormat('en-GB').format(new Date()),
     detail: body.detail
   }
 
-  Workout.findByIdAndUpdate(request.params.id, workout, { new: true })
-    .then(updatedWorkout => {
-      response.json(updatedWorkout)
+  const findWorkoutById = await Workout.findByIdAndUpdate
+  (request.params.id,
+    workout,
+    { new: true, runValidators: true, context: 'query' }
+  )
+
+  if (!findWorkoutById) {
+    return response.status(404).json({
+      error: 'Blog post does not exist!!'
     })
-    .catch(error => next(error))
+  }
+
+  response.json(findWorkoutById)
 })
 
 module.exports = workoutsRouter
